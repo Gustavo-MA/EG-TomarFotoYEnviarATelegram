@@ -1,0 +1,288 @@
+[
+    {
+        "id": "6dc351196e171088",
+        "type": "tab",
+        "label": "ESP32-CAM+Telegram",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "66e11506aa992539",
+        "type": "ui_template",
+        "z": "6dc351196e171088",
+        "group": "155044b3efa9b63c",
+        "name": "ESP32-CAM1",
+        "order": 7,
+        "width": "0",
+        "height": "0",
+        "format": "<iframe id=\"Video\" title=\"Video\" width=\"250\" height=\"190\" src=\"http://192.168.1.176:81/stream\">\n</iframe>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 220,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "22883a49961a52a8",
+        "type": "ui_button",
+        "z": "6dc351196e171088",
+        "name": "",
+        "group": "155044b3efa9b63c",
+        "order": 8,
+        "width": "5",
+        "height": "1",
+        "passthru": true,
+        "label": "Tomar foto",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 210,
+        "y": 280,
+        "wires": [
+            [
+                "f139382de45a59c6"
+            ]
+        ]
+    },
+    {
+        "id": "0250f2d0cf7d4736",
+        "type": "file",
+        "z": "6dc351196e171088",
+        "name": "",
+        "filename": "/home/gustavo/Desktop/foto/fotoesp32CAM.jpg",
+        "filenameType": "str",
+        "appendNewline": false,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 800,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f139382de45a59c6",
+        "type": "http request",
+        "z": "6dc351196e171088",
+        "name": "",
+        "method": "GET",
+        "ret": "bin",
+        "paytoqs": "ignore",
+        "url": "http://192.168.1.176/capture",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 430,
+        "y": 280,
+        "wires": [
+            [
+                "0250f2d0cf7d4736"
+            ]
+        ]
+    },
+    {
+        "id": "f02d4d6af236d401",
+        "type": "function",
+        "z": "6dc351196e171088",
+        "name": "function 5",
+        "func": "msg.payload=\n{\n    \"chatId\": 6239367736,\n    \"type\":\"photo\",\n    \"content\": msg.payload\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 520,
+        "wires": [
+            [
+                "7ea432a9294a3bbe",
+                "b8adcb362d66d1d1"
+            ]
+        ]
+    },
+    {
+        "id": "cc96b2d869e781ee",
+        "type": "mqtt in",
+        "z": "6dc351196e171088",
+        "name": "",
+        "topic": "codigoIoT/ejemplo/servo",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "dbb2841f278f706f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 270,
+        "y": 500,
+        "wires": [
+            [
+                "f02d4d6af236d401"
+            ]
+        ]
+    },
+    {
+        "id": "7ea432a9294a3bbe",
+        "type": "debug",
+        "z": "6dc351196e171088",
+        "name": "debug 16",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "b8adcb362d66d1d1",
+        "type": "telegram sender",
+        "z": "6dc351196e171088",
+        "name": "",
+        "bot": "08ce76143b1dad80",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1050,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "abb81b7ffe962913",
+        "type": "watch",
+        "z": "6dc351196e171088",
+        "name": "",
+        "files": "/home/gustavo/Desktop/foto/fotoesp32CAM.jpg",
+        "recursive": "",
+        "x": 800,
+        "y": 420,
+        "wires": [
+            [
+                "f02d4d6af236d401"
+            ]
+        ]
+    },
+    {
+        "id": "55f9da371c9b4792",
+        "type": "comment",
+        "z": "6dc351196e171088",
+        "name": "Se activa el flujo de la camara",
+        "info": "",
+        "x": 280,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "3e336ac8acfe1752",
+        "type": "comment",
+        "z": "6dc351196e171088",
+        "name": "Se toma la foto y se guarda en un directorio",
+        "info": "",
+        "x": 330,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "8623cf8dc7cc4e3b",
+        "type": "comment",
+        "z": "6dc351196e171088",
+        "name": "Se lee la foto y seenvia a telegram",
+        "info": "",
+        "x": 280,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "155044b3efa9b63c",
+        "type": "ui_group",
+        "name": "Señal de camara",
+        "tab": "78afe89d63961f04",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "dbb2841f278f706f",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "08ce76143b1dad80",
+        "type": "telegram bot",
+        "botname": "prueba_servo_bot",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "updatemode": "polling",
+        "pollinterval": "300",
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": "6667",
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbotport": "8443",
+        "publicbotport": "8443",
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "78afe89d63961f04",
+        "type": "ui_tab",
+        "name": "CamaraWeb",
+        "icon": "dashboard",
+        "order": 11,
+        "disabled": false,
+        "hidden": false
+    }
+]
